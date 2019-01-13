@@ -1,9 +1,11 @@
-﻿using MediatR;
-using Profiles.API.Application.Model;
+﻿using System.Runtime.Serialization;
+using MediatR;
 
 namespace Profiles.API.Application.Commands
 {
-    public class CreateProfileCommand: IRequest<UserProfile>
+    [DataContract]
+    public class CreateProfileCommand: IRequest<bool>
     {
+
     }
 }

@@ -7,7 +7,7 @@ namespace Profiles.API.Application.Queries
 {
     public interface IProfileQueries
     {
-        Task<IList<UserProfile>> GetUserProfile(Guid userId);
+        Task<IList<ProfileEntity>> GetUserProfile(Guid userId);
     }
 
     public class ProfileQueries : IProfileQueries
@@ -19,7 +19,7 @@ namespace Profiles.API.Application.Queries
             _profileRepository = profileRepository;
         }
 
-        public Task<IList<UserProfile>> GetUserProfile(Guid userId)
+        public Task<IList<ProfileEntity>> GetUserProfile(Guid userId)
         {
             return _profileRepository.GetProfiles(userId);
         }

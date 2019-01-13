@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Subscription.API.Controllers
+namespace Profiles.API.Controllers
 {
     public class HomeController : Controller
     {
