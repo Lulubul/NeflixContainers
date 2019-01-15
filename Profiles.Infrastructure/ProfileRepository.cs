@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -14,7 +15,7 @@ namespace Profiles.Infrastructure
         Task<bool> AddUserProfile(Guid userId, ProfileEntity profile);
     }
 
-    public class ProfileRepository : IProfileRepository
+    public class ProfileRepository: IProfileRepository
     {
         private const string ProfilesTable = "profiles";
         private readonly string _storageConnectionString;
@@ -42,20 +43,33 @@ namespace Profiles.Infrastructure
             return profiles;
         }
 
-        public Task<bool> UpdateUserProfile(Guid userId, ProfileEntity profile)
+        public async Task<bool> UpdateUserProfile(Guid userId, ProfileEntity profileEntity)
         {
-            throw new NotImplementedException();
+            var table = GetTable(ProfilesTable, _storageConnectionString);
+            var retrieveOperation = TableOperation.Retrieve<ProfileEntity>(profileEntity.PartitionKey, profileEntity.RowKey);
+            var updateEntity = await table.ExecuteAsync(retrieveOperation);
+            if (updateEntity?.Result is ProfileEntity storedProfileEntity)
+            {
+                storedProfileEntity = profileEntity;
+                var updateOperation = TableOperation.Replace(storedProfileEntity);
+                var updateResult = await table.ExecuteAsync(updateOperation);
+                return updateResult.HttpStatusCode == (int)HttpStatusCode.OK;
+            }
+            return false;
         }
 
-        public Task<bool> AddUserProfile(Guid userId, ProfileEntity profile)
+        public async Task<bool> AddUserProfile(Guid userId, ProfileEntity profile)
         {
-            throw new NotImplementedException();
+            var table = GetTable(ProfilesTable, _storageConnectionString);
+            var insertOperation = TableOperation.Insert(profile);
+            var insertResult = await table.ExecuteAsync(insertOperation);
+            return insertResult.HttpStatusCode == (int)HttpStatusCode.OK;
         }
 
-        private CloudTable GetTable(string table, string storageConnectionString)
+        private static CloudTable GetTable(string table, string storageConnectionString)
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+            var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
+            var tableClient = storageAccount.CreateCloudTableClient();
             return tableClient.GetTableReference(table);
         }
     }

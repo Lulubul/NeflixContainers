@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,7 @@ namespace Profiles.API
             {
                 c.SwaggerDoc("v1", new Info { Title = "Profile API", Version = "v1" });
             });
+            services.AddAutoMapper();
 
             var container = new ContainerBuilder();
             container.Populate(services);
