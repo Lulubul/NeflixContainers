@@ -5,12 +5,12 @@ using Marketing.Domain;
 
 namespace Marketing.Infrastructure
 {
-    public interface INewsService
+    public interface INewsRepository
     {
         Task<IEnumerable<News>> GetNewsAsync();
     }
 
-    public class NewsService
+    public class NewsRepository: INewsRepository
     {
         public Task<IEnumerable<News>> GetNewsAsync()
         {

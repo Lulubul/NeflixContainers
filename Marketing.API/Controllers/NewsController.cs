@@ -10,11 +10,11 @@ namespace Marketing.API.Controllers
     [ApiController]
     public class NewsController : ControllerBase
     {
-        private readonly INewsService _newsService;
+        private readonly INewsRepository _newsRepository;
 
-        public NewsController(INewsService newsService)
+        public NewsController(INewsRepository newsRepository)
         {
-            _newsService = newsService;
+            _newsRepository = newsRepository;
         }
 
         // GET: api/<controller>
@@ -22,7 +22,7 @@ namespace Marketing.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<News>), 200)]
         public async Task<IEnumerable<News>> GetNews()
         {
-            var news = await _newsService.GetNewsAsync();
+            var news = await _newsRepository.GetNewsAsync();
             return news;
         }
     }

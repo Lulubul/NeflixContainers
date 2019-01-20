@@ -7,7 +7,6 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Profiles.Infrastructure
 {
-
     public interface IProfileRepository
     {
         Task<IList<ProfileEntity>> GetProfiles(Guid userId);
