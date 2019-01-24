@@ -17,7 +17,7 @@ namespace Profiles.API.Controllers
 
         public ProfilesController(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         // GET: api/<controller>

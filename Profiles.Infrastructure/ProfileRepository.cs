@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using Profiles.Infrastructure.Entities;
 
 namespace Profiles.Infrastructure
 {

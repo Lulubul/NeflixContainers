@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Profiles.API.Application.Model;
 using Profiles.Infrastructure;
+using Profiles.Infrastructure.Entities;
 
 namespace Profiles.API.Application.Queries
 {
@@ -15,8 +17,8 @@ namespace Profiles.API.Application.Queries
 
         public ProfilesByUserIdHandler(IProfileRepository profileRepository, IMapper mapper)
         {
-            _profileRepository = profileRepository;
-            _mapper = mapper;
+            _profileRepository = profileRepository ?? throw new ArgumentNullException(nameof(profileRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<ProfilesByUserIdQueryResult> Handle(ProfilesByUserIdQuery request, CancellationToken cancellationToken)

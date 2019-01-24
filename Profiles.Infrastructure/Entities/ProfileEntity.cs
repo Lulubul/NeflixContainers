@@ -1,6 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
 
-namespace Profiles.Infrastructure
+namespace Profiles.Infrastructure.Entities
 {
     public class ProfileEntity: TableEntity
     {

@@ -12,7 +12,7 @@ namespace Profiles.API.Application.Commands
 
         public UpdateProfileCommandHandler(IProfileRepository profileRepository)
         {
-            _profileRepository = profileRepository;
+            _profileRepository = profileRepository ?? throw new ArgumentNullException(nameof(profileRepository));
         }
 
         public async Task<bool> Handle(UpdateProfileCommand request, CancellationToken cancellationToken)
