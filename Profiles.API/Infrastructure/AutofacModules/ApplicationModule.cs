@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using Autofac;
-using Profiles.API.Application.Commands;
-using Profiles.API.Application.Queries;
+﻿using Autofac;
 using Profiles.Infrastructure;
 
 namespace Profiles.API.Infrastructure.AutofacModules
@@ -18,10 +15,6 @@ namespace Profiles.API.Infrastructure.AutofacModules
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<ProfileQueries>()
-                .As<IProfileQueries>()
-                .InstancePerLifetimeScope();
-
             builder.Register(c => new ProfileRepository(_connectionString))
                 .As<IProfileRepository>()
                 .InstancePerLifetimeScope();

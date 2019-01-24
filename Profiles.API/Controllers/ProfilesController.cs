@@ -14,12 +14,10 @@ namespace Profiles.API.Controllers
     public class ProfilesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IProfileQueries _profileQueries;
 
-        public ProfilesController(IMediator mediator, IProfileQueries profileQueries)
+        public ProfilesController(IMediator mediator)
         {
             _mediator = mediator;
-            _profileQueries = profileQueries;
         }
 
         // GET: api/<controller>
@@ -32,8 +30,8 @@ namespace Profiles.API.Controllers
                 return BadRequest($"Parameter is not defined in query {nameof(usedId)}");
             }
 
-            var profiles = await _profileQueries.GetUserProfile(usedId.Value);
-            return Ok(profiles);
+            var result = await _mediator.Send(new ProfilesByUserIdQuery(usedId.Value));
+            return Ok(result.Profiles);
         }
 
         // Post: api/<controller>
