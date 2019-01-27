@@ -1,0 +1,57 @@
+version: '3.4'
+
+services:
+  subscription.api:
+    image: ${DOCKER_REGISTRY-}subscriptionapi
+    build:
+      context: .
+      dockerfile: Subscription.API/Dockerfile
+
+  streaming.api:
+    image: ${DOCKER_REGISTRY-}streamingapi
+    build:
+      context: .
+      dockerfile: Streaming.API/Dockerfile
+
+
+  history.api:
+    image: ${DOCKER_REGISTRY-}historyapi
+    build:
+      context: .
+      dockerfile: History.API/Dockerfile
+
+
+  marketing.api:
+    image: ${DOCKER_REGISTRY-}marketingapi
+    build:
+      context: .
+      dockerfile: Marketing.API/Dockerfile
+
+
+  profiles.api:
+    image: ${DOCKER_REGISTRY-}profilesapi
+    build:
+      context: .
+      dockerfile: Profiles.API/Dockerfile
+
+
+  recommendation.api:
+    image: ${DOCKER_REGISTRY-}recommendationapi
+    build:
+      context: .
+      dockerfile: Recommendation.API/Dockerfile
+
+
+  moviemetadata.api:
+    image: ${DOCKER_REGISTRY-}moviemetadataapi
+    build:
+      context: .
+      dockerfile: MovieMetadata.API/Dockerfile
+
+
+  identity.api:
+    image: ${DOCKER_REGISTRY-}identityapi
+    build:
+      context: .
+      dockerfile: Identity.API/Dockerfile
+

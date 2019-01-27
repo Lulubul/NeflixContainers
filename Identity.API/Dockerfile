@@ -1,18 +1,18 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
-COPY ["Identity.API/Identity.API.csproj", "Identity.API/"]
-RUN dotnet restore "Identity.API/Identity.API.csproj"
+COPY Identity.API/Identity.API.csproj Identity.API/
+RUN dotnet restore Identity.API/Identity.API.csproj
 COPY . .
-WORKDIR "/src/Identity.API"
-RUN dotnet build "Identity.API.csproj" -c Release -o /app
+WORKDIR /src/Identity.API
+RUN dotnet build Identity.API.csproj -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "Identity.API.csproj" -c Release -o /app
+RUN dotnet publish Identity.API.csproj -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
