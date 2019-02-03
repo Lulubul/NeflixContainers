@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Subscription.Infrastructure;
 
 namespace Subscription.API
 {
@@ -30,6 +31,9 @@ namespace Subscription.API
                     TermsOfService = "Terms Of Service"
                 });
             });
+
+            var azureTableStorage = Configuration.GetConnectionString("AzureTableStorage");
+            services.AddTransient<IPlanRepository>(m => new PlanRepository(azureTableStorage));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

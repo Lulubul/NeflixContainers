@@ -1,6 +1,8 @@
-﻿namespace Subscription.Infrastructure
+﻿using Microsoft.WindowsAzure.Storage.Table;
+
+namespace Subscription.Infrastructure
 {
-    public class PlanEntity
+    public class PlanEntity: TableEntity
     {
         public bool CancelAnytime { get; set; }
         public bool HD { get; set; }
