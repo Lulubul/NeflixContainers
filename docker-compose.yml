@@ -55,3 +55,10 @@ services:
       context: .
       dockerfile: Identity.API/Dockerfile
 
+
+  webstatus:
+    image: ${DOCKER_REGISTRY-}webstatus
+    build:
+      context: .
+      dockerfile: WebStatus/Dockerfile
+
