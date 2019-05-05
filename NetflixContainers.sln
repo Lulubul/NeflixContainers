@@ -63,7 +63,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Profiles.Tests", "..\Profil
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStatus", "WebStatus\WebStatus.csproj", "{6F355326-3536-4CA4-8D55-2CD3D1D146B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "History.Infrastructure", "..\History.Infrastructure\History.Infrastructure.csproj", "{9B24D729-55D1-4EBA-B981-EDA8FE697134}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "History.Infrastructure", "History.Infrastructure\History.Infrastructure.csproj", "{9B24D729-55D1-4EBA-B981-EDA8FE697134}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
