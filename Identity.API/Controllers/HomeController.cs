@@ -6,7 +6,7 @@ namespace Identity.API.Controllers
     {
         public IActionResult Index()
         {
-            return new RedirectResult("");
+            return new RedirectResult("~/swagger");
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿using HealthChecks.UI.Client;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
+using HealthChecks.UI.Client;
+using Identity.API.Infrastructure.AutofacModules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 
 namespace Identity.API
 {
@@ -19,16 +24,28 @@ namespace Identity.API
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services
                 .AddCustomHealthCheck(Configuration)
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddAutoMapper();
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Identity API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "History API", Version = "v1" });
             });
+
+            var container = new ContainerBuilder();
+            container.Populate(services);
+
+            var azureTableStorage = Configuration.GetConnectionString("AzureTableStorage");
+
+            container.RegisterModule(new MediatorModule());
+            container.RegisterModule(new ApplicationModule(azureTableStorage));
+            return new AutofacServiceProvider(container.Build());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
