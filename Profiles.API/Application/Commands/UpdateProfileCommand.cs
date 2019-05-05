@@ -10,5 +10,6 @@ namespace Profiles.API.Application.Commands
         public string Language { get; set; }
         public string Name { get; set; }
         public string MaturityLevel { get; set; }
+        public string UserId { get; set; }
     }
 }

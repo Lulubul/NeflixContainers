@@ -11,8 +11,8 @@ namespace Profiles.Infrastructure
     public interface IProfileRepository
     {
         Task<IList<ProfileEntity>> GetProfiles(Guid userId);
-        Task<bool> UpdateUserProfile(Guid userId, ProfileEntity profile);
-        Task<bool> AddUserProfile(Guid userId, ProfileEntity profile);
+        Task<bool> UpdateUserProfile(ProfileEntity profile);
+        Task<bool> AddUserProfile(ProfileEntity profile);
     }
 
     public class ProfileRepository: IProfileRepository
@@ -43,7 +43,7 @@ namespace Profiles.Infrastructure
             return profiles;
         }
 
-        public async Task<bool> UpdateUserProfile(Guid userId, ProfileEntity profileEntity)
+        public async Task<bool> UpdateUserProfile(ProfileEntity profileEntity)
         {
             var table = GetTable(ProfilesTable, _storageConnectionString);
             var retrieveOperation = TableOperation.Retrieve<ProfileEntity>(profileEntity.PartitionKey, profileEntity.RowKey);
@@ -58,7 +58,7 @@ namespace Profiles.Infrastructure
             return false;
         }
 
-        public async Task<bool> AddUserProfile(Guid userId, ProfileEntity profile)
+        public async Task<bool> AddUserProfile(ProfileEntity profile)
         {
             var table = GetTable(ProfilesTable, _storageConnectionString);
             var insertOperation = TableOperation.Insert(profile);
