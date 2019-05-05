@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Marketing.Domain;
+﻿using Marketing.Domain;
 using Marketing.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Marketing.API.Controllers
 {
