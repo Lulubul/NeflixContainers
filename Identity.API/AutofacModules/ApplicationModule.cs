@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Identity.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 
 namespace Identity.API.Infrastructure.AutofacModules
 {
@@ -13,9 +15,13 @@ namespace Identity.API.Infrastructure.AutofacModules
 
         protected override void Load(ContainerBuilder builder)
         {
-            /*builder.Register(c => new HistoryRepository(_connectionString))
-                .As<IHistoryRepository>()
-                .InstancePerLifetimeScope();*/
+            builder.Register(c => new UserRepository(_connectionString))
+                .As<IUserRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.Register(c => new PasswordHasher<UserEntity>())
+                .As<IPasswordHasher<UserEntity>>()
+                .InstancePerLifetimeScope();
         }
     }
 }

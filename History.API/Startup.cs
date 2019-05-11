@@ -31,7 +31,7 @@ namespace History.API
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddAutoMapper();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddSwaggerGen(c =>
             {

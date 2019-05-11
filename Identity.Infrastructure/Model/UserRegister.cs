@@ -1,12 +1,16 @@
-﻿using System;
-
-namespace Identity.API.Application.Model
+﻿namespace Identity.API.Application.Model
 {
-    public class User : Entity
+    public class UserRegister: Entity
     {
+        
         public string Email { get; set; }
+        
         public string FirstName { get; set; }
+        
         public string LastName { get; set; }
+        
+        public string Password { get; set; }
+        
         public string PlanId { get; set; }
     }
 }

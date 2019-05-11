@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Streaming.Infrastructure;
+using Streaming.Infrasturcture;
 
 namespace Streaming.API.Controllers
 {

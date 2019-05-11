@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Identity.API.Application.Model;
+using Identity.API.Services;
+using Identity.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,11 +11,11 @@ namespace Identity.API.Controllers
     [ApiController]
     public class UsersController : Controller
     {
-        private readonly IUsersService _usersService;
+        private readonly IUserService _userService;
 
-        public UsersController(IUsersService usersService)
+        public UsersController(IUserService userRepository)
         {
-            _usersService = usersService;
+            _userService = userRepository;
         }
 
         [HttpPost]
@@ -31,7 +33,7 @@ namespace Identity.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            User newUser = await _usersService.AddUser(user);
+            User newUser = await _userService.AddUser(user);
             return Ok(newUser);
         }
 
@@ -52,7 +54,7 @@ namespace Identity.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            User user = await _usersService.Login(userLogin);
+            User user = await _userService.Login(userLogin);
             if (user == null)
             {
                 return Unauthorized();
@@ -60,13 +62,5 @@ namespace Identity.API.Controllers
             return Ok(user);
         }
 
-        /// <summary>
-        /// Handle logout page postback
-        /// </summary>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public void Logout(string logoutId)
-        {
-        }
     }
 }

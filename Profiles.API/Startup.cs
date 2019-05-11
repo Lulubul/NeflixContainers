@@ -34,7 +34,7 @@ namespace Profiles.API
             {
                 c.SwaggerDoc("v1", new Info { Title = "Profile API", Version = "v1" });
             });
-            services.AddAutoMapper();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var container = new ContainerBuilder();
             container.Populate(services);

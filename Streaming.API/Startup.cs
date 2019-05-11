@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Streaming.Infrastructure;
+using Streaming.Infrasturcture;
 
 namespace Streaming.API
 {
