@@ -31,15 +31,15 @@ namespace MovieMetadata.API
                 .AddCustomHealthCheck(Configuration)
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Profile API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = GetType().Namespace, Version = "v1" });
             });
-            services.AddAutoMapper();
 
+            var azureTableStorage = Configuration.GetConnectionString("AzureTableStorage");
             var container = new ContainerBuilder();
             container.Populate(services);
-            var azureTableStorage = Configuration.GetConnectionString("AzureTableStorage");
             container.RegisterModule(new ApplicationModule(azureTableStorage));
             return new AutofacServiceProvider(container.Build());
         }
@@ -59,7 +59,7 @@ namespace MovieMetadata.API
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Profile API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", GetType().Namespace);
             });
 
             app.UseHealthChecks("/liveness", new HealthCheckOptions

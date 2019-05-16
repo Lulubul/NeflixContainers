@@ -2,6 +2,7 @@
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using HealthChecks.UI.Client;
+using Identity.API.Application;
 using Identity.API.Infrastructure.AutofacModules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -35,7 +36,7 @@ namespace Identity.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "History API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = GetType().Namespace, Version = "v1" });
             });
 
             var container = new ContainerBuilder();
@@ -60,11 +61,16 @@ namespace Identity.API
                 app.UseHsts();
             }
 
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Profile API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", GetType().Namespace);
             });
+
             app.UseHealthChecks("/liveness", new HealthCheckOptions
             {
                 Predicate = r => r.Name.Contains("self")
@@ -74,6 +80,7 @@ namespace Identity.API
                 Predicate = _ => true,
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
             });
+
             app.UseHttpsRedirection();
             app.UseMvc();
         }

@@ -1,4 +1,4 @@
-﻿namespace History.API.Controllers
+﻿namespace Recommendation.Domain
 {
     public class Movie
     {

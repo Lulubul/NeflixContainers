@@ -6,6 +6,6 @@ namespace Marketing.Infrastructure
 {
     public interface INewsRepository
     {
-        Task<IEnumerable<News>> GetNewsAsync();
+        Task<IEnumerable<News>> GetNewsAsync(string userId, string profileId);
     }
 }

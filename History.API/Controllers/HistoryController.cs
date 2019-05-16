@@ -11,7 +11,7 @@ namespace History.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HistoryController : Controller
+    public class HistoryController : ControllerBase
     {
         private readonly IMediator _mediator;
 

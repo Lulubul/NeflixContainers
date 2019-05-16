@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Identity.API.Application.Model;
 using Identity.API.Services;
-using Identity.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +8,7 @@ namespace Identity.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : Controller
+    public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
 
@@ -18,10 +17,8 @@ namespace Identity.API.Controllers
             _userService = userRepository;
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(UserRegister user)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody]UserRegister user)
         {
             if (user == null)
             {
@@ -40,9 +37,8 @@ namespace Identity.API.Controllers
         /// <summary>
         /// Handle postback from username/password login
         /// </summary>
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(UserLogin userLogin)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody]UserLogin userLogin)
         {
             if (userLogin == null)
             {
@@ -61,6 +57,5 @@ namespace Identity.API.Controllers
             }
             return Ok(user);
         }
-
     }
 }

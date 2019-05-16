@@ -13,7 +13,6 @@ using Profiles.API.Application;
 using Profiles.API.Infrastructure.AutofacModules;
 using Swashbuckle.AspNetCore.Swagger;
 
-
 namespace Profiles.API
 {
     public class Startup
@@ -32,7 +31,7 @@ namespace Profiles.API
                 .AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Profile API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = GetType().Namespace, Version = "v1" });
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -65,7 +64,7 @@ namespace Profiles.API
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Profile API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", GetType().Namespace);
             });
 
             app.UseHealthChecks("/liveness", new HealthCheckOptions

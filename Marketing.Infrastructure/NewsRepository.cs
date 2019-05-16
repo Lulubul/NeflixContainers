@@ -7,7 +7,7 @@ namespace Marketing.Infrastructure
 {
     public class NewsRepository: INewsRepository
     {
-        public Task<IEnumerable<News>> GetNewsAsync()
+        public Task<IEnumerable<News>> GetNewsAsync(string userId, string profileId)
         {
             throw new NotImplementedException();
         }

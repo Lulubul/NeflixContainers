@@ -7,7 +7,7 @@ namespace History.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RecommendationController : Controller
+    public class RecommendationController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IRecommendationsService _recommendationsService;

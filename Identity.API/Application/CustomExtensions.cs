@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace Identity.API
+namespace Identity.API.Application
 {
     public static class CustomExtensions
     {

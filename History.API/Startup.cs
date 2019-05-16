@@ -35,7 +35,7 @@ namespace History.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "History API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = GetType().Namespace, Version = "v1" });
             });
 
             var container = new ContainerBuilder();
@@ -67,7 +67,7 @@ namespace History.API
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Profile API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", GetType().Namespace);
             });
 
             app.UseHealthChecks("/liveness", new HealthCheckOptions

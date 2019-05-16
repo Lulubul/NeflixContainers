@@ -57,7 +57,7 @@ namespace Subscription.API
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Subscription API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", GetType().Namespace);
             });
 
             app.UseHealthChecks("/liveness", new HealthCheckOptions

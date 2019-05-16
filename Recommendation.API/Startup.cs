@@ -45,7 +45,7 @@ namespace Recommendation.API
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Profile API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", GetType().Namespace);
             });
 
             app.UseHealthChecks("/liveness", new HealthCheckOptions

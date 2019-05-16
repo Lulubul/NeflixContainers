@@ -20,9 +20,9 @@ namespace Marketing.API.Controllers
         // GET: api/<controller>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<News>), 200)]
-        public async Task<IEnumerable<News>> GetNews()
+        public async Task<IEnumerable<News>> GetNews([FromQuery]string userId, [FromQuery]string profileId)
         {
-            var news = await _newsRepository.GetNewsAsync();
+            var news = await _newsRepository.GetNewsAsync(userId, profileId);
             return news;
         }
     }
