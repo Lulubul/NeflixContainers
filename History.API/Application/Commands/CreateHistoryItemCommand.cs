@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System.ComponentModel.DataAnnotations;
 using System;
-using History.Infrastructure;
+using History.Infrastructure.Entities;
 
 namespace History.API.Application.Commands
 {
@@ -15,6 +15,7 @@ namespace History.API.Application.Commands
         public string WatchingItemId { get; set; }
         [Required]
         public WatchingItemType WatchingItemType { get; set; }
+        [Required]
         public DateTime Date { get; set; }
     }
 }

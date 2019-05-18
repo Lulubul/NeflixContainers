@@ -28,11 +28,11 @@ namespace History.API
         {
             services
                 .AddCustomHealthCheck(Configuration)
+                .AddCustomDbContext(Configuration)
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = GetType().Namespace, Version = "v1" });
@@ -41,10 +41,8 @@ namespace History.API
             var container = new ContainerBuilder();
             container.Populate(services);
 
-            var azureTableStorage = Configuration.GetConnectionString("AzureTableStorage");
-
             container.RegisterModule(new MediatorModule());
-            container.RegisterModule(new ApplicationModule(azureTableStorage));
+            container.RegisterModule(new ApplicationModule());
             return new AutofacServiceProvider(container.Build());
         }
 
@@ -83,5 +81,6 @@ namespace History.API
             app.UseHttpsRedirection();
             app.UseMvc();
         }
+
     }
 }

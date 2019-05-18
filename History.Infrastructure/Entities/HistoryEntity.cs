@@ -1,9 +1,8 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
-using System;
+﻿using System;
 
-namespace History.Infrastructure
+namespace History.Infrastructure.Entities
 {
-    public class HistoryEntity : TableEntity
+    public class HistoryEntity
     {
         public string UserId { get; set; }
         public string ProfileId { get; set; }

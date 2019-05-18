@@ -5,16 +5,14 @@ namespace History.API.Infrastructure.AutofacModules
 {
     public class ApplicationModule: Autofac.Module
     {
-        private readonly string _connectionString;
-
-        public ApplicationModule(string connectionString)
+        public ApplicationModule()
         {
-            _connectionString = connectionString;
         }
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.Register(c => new HistoryRepository(_connectionString))
+            builder
+                .RegisterType<HistoryRepository>()
                 .As<IHistoryRepository>()
                 .InstancePerLifetimeScope();
         }

@@ -1,4 +1,4 @@
-﻿namespace History.Infrastructure
+﻿namespace History.Infrastructure.Entities
 {
     public enum WatchingItemType
     {

@@ -7,6 +7,7 @@ using System.Linq;
 using History.Infrastructure;
 using MediatR;
 using History.API.Application.Model;
+using History.Infrastructure.Entities;
 
 namespace History.API.Application.Queries
 {

@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using System.ComponentModel.DataAnnotations;
 using System;
 using History.Infrastructure;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using History.Infrastructure.Entities;
 
 namespace History.API.Application.Commands
 {

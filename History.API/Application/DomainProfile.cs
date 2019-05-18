@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using History.API.Application.Commands;
 using History.API.Application.Model;
-using History.Infrastructure;
+using History.Infrastructure.Entities;
 
 namespace Profiles.API.Application
 {
@@ -9,6 +9,7 @@ namespace Profiles.API.Application
     {
         public DomainProfile()
         {
+            CreateMap<HistoryItem, HistoryEntity>();
             CreateMap<HistoryEntity, HistoryItem>();
             CreateMap<CreateHistoryItemCommand, HistoryEntity>();
         }
