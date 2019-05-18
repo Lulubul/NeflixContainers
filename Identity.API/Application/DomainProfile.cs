@@ -13,6 +13,7 @@ namespace Identity.API.Application
             CreateMap<UserRegister, User>();
             CreateMap<UserEntity, User>()
                  .ForMember(x => x.Id, opt => opt.MapFrom(x => x.RowKey));
+            CreateMap<PlanEntity, SubscriptionPlan>();
         }
     }
 }

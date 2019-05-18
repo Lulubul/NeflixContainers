@@ -20,18 +20,6 @@ namespace Streaming.Infrasturcture
             _connectionString = connectionString;
         }
 
-        public async Task<Stream> GetMovieByNameAsync(string name)
-        {
-            return await GetContainer(_connectionString, MoviesContainer)
-                        .GetBlobReference(name)
-                        .OpenReadAsync();
-        }
-
-        private CloudBlobContainer GetContainer(string storageConnectionString, string container)
-        {
-            var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            return blobClient.GetContainerReference(container);
-        }
+       
     }
 }

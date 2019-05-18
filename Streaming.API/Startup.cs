@@ -30,9 +30,9 @@ namespace Streaming.API
                 options.DescribeAllEnumsAsStrings();
                 options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
                 {
-                    Title = "The Subscription HTTP API",
+                    Title = "The Streaming HTTP API",
                     Version = "v1",
-                    Description = "The Subscription API",
+                    Description = "The Streaming API",
                     TermsOfService = "Terms Of Service"
                 });
             });

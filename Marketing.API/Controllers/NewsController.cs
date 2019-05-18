@@ -20,10 +20,20 @@ namespace Marketing.API.Controllers
         // GET: api/<controller>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<News>), 200)]
-        public async Task<IEnumerable<News>> GetNews([FromQuery]string userId, [FromQuery]string profileId)
+        public async Task<IActionResult> GetNews([FromQuery]string userId, [FromQuery]string profileId)
         {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest($"Parameter is not defined in query {nameof(userId)}");
+            }
+
+            if (string.IsNullOrEmpty(profileId))
+            {
+                return BadRequest($"Parameter is not defined in query {nameof(profileId)}");
+            }
+
             var news = await _newsRepository.GetNewsAsync(userId, profileId);
-            return news;
+            return Ok(news);
         }
     }
 }

@@ -7,10 +7,12 @@ namespace MovieMetadata.API.Infrastructure.AutofacModules
     public class ApplicationModule: Autofac.Module
     {
         private readonly string _connectionString;
+        private readonly string _blobConnectionString;
 
-        public ApplicationModule(string connectionString)
+        public ApplicationModule(string connectionString, string blobConnectionString)
         {
             _connectionString = connectionString;
+            _blobConnectionString = blobConnectionString;
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -19,7 +21,7 @@ namespace MovieMetadata.API.Infrastructure.AutofacModules
                 .As<IMoviesQueries>()
                 .InstancePerLifetimeScope();
 
-            builder.Register(c => new MovieRepository(_connectionString))
+            builder.Register(c => new MovieRepository(_connectionString, _blobConnectionString))
                 .As<IMovieRepository>()
                 .InstancePerLifetimeScope();
         }

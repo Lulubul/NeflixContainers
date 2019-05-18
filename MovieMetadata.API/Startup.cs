@@ -38,9 +38,10 @@ namespace MovieMetadata.API
             });
 
             var azureTableStorage = Configuration.GetConnectionString("AzureTableStorage");
+            var azureBlobStorage = Configuration.GetConnectionString("AzureBlobStorage");
             var container = new ContainerBuilder();
             container.Populate(services);
-            container.RegisterModule(new ApplicationModule(azureTableStorage));
+            container.RegisterModule(new ApplicationModule(azureTableStorage, azureBlobStorage));
             return new AutofacServiceProvider(container.Build());
         }
 

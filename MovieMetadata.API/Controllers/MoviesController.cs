@@ -25,7 +25,7 @@ namespace MovieMetadata.API.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        [Route("~/genres")]
+        [Route("api/genres")]
         public async Task<IActionResult> GetGenres()
         {
             var movies = await _movieQueries.GetGenres();

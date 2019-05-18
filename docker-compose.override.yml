@@ -1,29 +1,6 @@
 version: '3.4'
 
 services:
-  subscription.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_HTTPS_PORT=44314
-    ports:
-      - "57783:80"
-      - "44314:443"
-    volumes:
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-  streaming.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_HTTPS_PORT=44375
-    ports:
-      - "57369:80"
-      - "44375:443"
-    volumes:
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-
   history.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -103,18 +80,16 @@ services:
       - ASPNETCORE_HTTPS_PORT=44326
       - HealthChecks-UI__HealthChecks__1__Name=Subscription HTTP Check
       - HealthChecks-UI__HealthChecks__1__Uri=http://localhost:44314/hc
-      - HealthChecks-UI__HealthChecks__2__Name=Streaming HTTP Check
-      - HealthChecks-UI__HealthChecks__2__Uri=http://localhost:44375/hc
-      - HealthChecks-UI__HealthChecks__3__Name=History HTTP Check
-      - HealthChecks-UI__HealthChecks__3__Uri=http://localhost:44372/hc
-      - HealthChecks-UI__HealthChecks__4__Name=Marketing HTTP Check
-      - HealthChecks-UI__HealthChecks__4__Uri=http://localhost:44364/hc
-      - HealthChecks-UI__HealthChecks__5__Name=Moviemetadata HTTP Check
-      - HealthChecks-UI__HealthChecks__5__Uri=http://localhost:44367/hc
-      - HealthChecks-UI__HealthChecks__6__Name=Recommendation HTTP Check
-      - HealthChecks-UI__HealthChecks__6__Uri=http://localhost:44322/hc
-      - HealthChecks-UI__HealthChecks__7__Name=Identity HTTP Check
-      - HealthChecks-UI__HealthChecks__7__Uri=http://localhost:44355/hc
+      - HealthChecks-UI__HealthChecks__2__Name=History HTTP Check
+      - HealthChecks-UI__HealthChecks__2__Uri=http://localhost:44372/hc
+      - HealthChecks-UI__HealthChecks__3__Name=Marketing HTTP Check
+      - HealthChecks-UI__HealthChecks__3__Uri=http://localhost:44364/hc
+      - HealthChecks-UI__HealthChecks__4__Name=Moviemetadata HTTP Check
+      - HealthChecks-UI__HealthChecks__4__Uri=http://localhost:44367/hc
+      - HealthChecks-UI__HealthChecks__5__Name=Recommendation HTTP Check
+      - HealthChecks-UI__HealthChecks__5__Uri=http://localhost:44322/hc
+      - HealthChecks-UI__HealthChecks__6__Name=Identity HTTP Check
+      - HealthChecks-UI__HealthChecks__6__Uri=http://localhost:44355/hc
   
     ports:
       - "52419:80"
