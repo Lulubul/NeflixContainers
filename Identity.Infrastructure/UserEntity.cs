@@ -1,9 +1,8 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
-
-namespace Identity.Infrastructure
+﻿namespace Identity.Infrastructure
 {
-    public class UserEntity : TableEntity
+    public class UserEntity
     {
+        public string Id { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

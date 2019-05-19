@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Identity.API.Application;
-using Identity.API.Application.Model;
+using Identity.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Subscription.API.Controllers

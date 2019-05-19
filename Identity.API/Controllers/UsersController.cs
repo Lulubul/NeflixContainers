@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Identity.API.Application.Model;
 using Identity.API.Services;
+using Identity.Domain.Exceptions;
+using Identity.Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody]UserRegister user)
         {
             if (user == null)
@@ -30,7 +32,15 @@ namespace Identity.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            User newUser = await _userService.AddUser(user);
+            User newUser = null;
+            try
+            {
+                newUser = await _userService.AddUser(user);
+            }
+            catch (RegisterDomainException exception)
+            {
+                return BadRequest(exception);
+            }
             return Ok(newUser);
         }
 
@@ -49,8 +59,7 @@ namespace Identity.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            User user = await _userService.Login(userLogin);
+            User user = await _userService.Login(userLogin);         
             if (user == null)
             {
                 return Unauthorized();

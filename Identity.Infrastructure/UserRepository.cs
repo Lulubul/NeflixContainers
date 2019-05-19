@@ -1,50 +1,41 @@
-﻿using Identity.API.Application.Model;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Identity.Domain.Exceptions;
 
 namespace Identity.Infrastructure
 {
     public interface IUserRepository
     {
-        Task<User> AddUser(UserEntity user);
-        Task<UserEntity> Login(UserEntity userLogin);
+        Task<UserEntity> AddUser(UserEntity user);
+        Task<UserEntity> GetUserByEmail(string userEmail);
     }
 
     public class UserRepository : IUserRepository
     {
-        private readonly string _storageConnectionString;
-        private const string TableName = "history";
+        private readonly IdentityContext _identityContext;
 
-        public UserRepository(string storageConnectionString)
+        public UserRepository(IdentityContext identityContext)
         {
-            _storageConnectionString = storageConnectionString;
+            _identityContext = identityContext;
         }
 
-        public async Task<UserEntity> Login(UserEntity user)
+        public async Task<UserEntity> GetUserByEmail(string userEmail)
         {
-            var query = new TableQuery<UserEntity>()
-                .Where(TableQuery.GenerateFilterCondition("Email", QueryComparisons.Equal, user.Email)).Take(1);
-
-            var table = GetTable(TableName, _storageConnectionString);
-            TableContinuationToken continuationToken = null;
-            var result = await table.ExecuteQuerySegmentedAsync(query, continuationToken);
-            return result?.Results[0];
+            return await _identityContext.Users.FirstOrDefaultAsync((user) => user.Email == userEmail);
         }
 
-        public async Task<User> AddUser(UserEntity newUser)
+        public async Task<UserEntity> AddUser(UserEntity newUser)
         {
-            TableOperation insertOperation = TableOperation.Insert(newUser);
-            var table = GetTable(TableName, _storageConnectionString);
-            await table.ExecuteAsync(insertOperation);
-            return new User { Id = newUser.RowKey };
+            var emailAddressExist = await _identityContext.Users.AnyAsync((user) => user.Email == newUser.Email);
+            if (emailAddressExist)
+            {
+                throw new RegisterDomainException($"User with {newUser.Email} address already exists");
+            }
+            _identityContext.Users.Add(newUser);
+            await _identityContext.SaveChangesAsync();
+            return newUser;
         }
 
-        private static CloudTable GetTable(string table, string storageConnectionString)
-        {
-            var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-            var tableClient = storageAccount.CreateCloudTableClient();
-            return tableClient.GetTableReference(table);
-        }
     }
 }

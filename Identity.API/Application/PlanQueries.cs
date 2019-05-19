@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using AutoMapper;
 using Identity.Infrastructure;
-using SubscriptionPlan = Identity.API.Application.Model.SubscriptionPlan;
+using Identity.Domain.Model;
 
 namespace Identity.API.Application
 {
@@ -27,7 +27,7 @@ namespace Identity.API.Application
         public async Task<IEnumerable<SubscriptionPlan>> GetAllPlans()
         {
             var plans = await _planRepository.GetAllPlans();
-            return plans.Select(plan => _mapper.Map<PlanEntity,SubscriptionPlan>(plan));
+            return plans.Select(plan => _mapper.Map<PlanEntity, SubscriptionPlan>(plan));
         }
     }
 }

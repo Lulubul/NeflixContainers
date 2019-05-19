@@ -28,6 +28,7 @@ namespace Identity.API
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services
+                .AddCustomDbContext(Configuration)
                 .AddCustomHealthCheck(Configuration)
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -41,11 +42,8 @@ namespace Identity.API
 
             var container = new ContainerBuilder();
             container.Populate(services);
-
-            var azureTableStorage = Configuration.GetConnectionString("AzureTableStorage");
-
             container.RegisterModule(new MediatorModule());
-            container.RegisterModule(new ApplicationModule(azureTableStorage));
+            container.RegisterModule(new ApplicationModule());
             return new AutofacServiceProvider(container.Build());
         }
 

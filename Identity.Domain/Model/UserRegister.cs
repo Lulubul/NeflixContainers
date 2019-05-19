@@ -1,4 +1,4 @@
-﻿namespace Identity.API.Application.Model
+﻿namespace Identity.Domain.Model
 {
     public class UserRegister: Entity
     {

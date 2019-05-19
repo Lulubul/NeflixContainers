@@ -1,9 +1,8 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
-
-namespace Identity.Infrastructure
+﻿namespace Identity.Infrastructure
 {
-    public class PlanEntity: TableEntity
+    public class PlanEntity
     {
+        public string Id { get; set; }
         public bool CancelAnytime { get; set; }
         public bool HD { get; set; }
         public string Name { get; set; }

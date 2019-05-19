@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Infrastructure
 {
@@ -12,34 +11,16 @@ namespace Identity.Infrastructure
 
     public class PlanRepository : IPlanRepository
     {
-        public string TableName = "Plans";
-        private readonly string _storageConnectionString;
+        private readonly IdentityContext _identityContext;
 
-        public PlanRepository(string storageConnectionString)
+        public PlanRepository(IdentityContext identityContext)
         {
-            _storageConnectionString = storageConnectionString;
+            _identityContext = identityContext;
         }
 
         public async Task<IEnumerable<PlanEntity>> GetAllPlans()
         {
-            var table = GetTable(TableName, _storageConnectionString);
-            var plans = new List<PlanEntity>();
-            TableContinuationToken continuationToken = null;
-            do
-            {
-                var querySegment = await table.ExecuteQuerySegmentedAsync(new TableQuery<PlanEntity>(), continuationToken);
-                continuationToken = querySegment.ContinuationToken;
-                plans.AddRange(querySegment.Results);
-            }
-            while (continuationToken != null);
-            return plans;
-        }
-
-        protected CloudTable GetTable(string table, string storageConnectionString)
-        {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            return tableClient.GetTableReference(table);
+            return await _identityContext.Plans.ToListAsync();
         }
     }
 }

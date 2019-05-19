@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Identity.API.Application.Model;
+using Identity.Domain.Model;
 using Identity.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -28,13 +28,12 @@ namespace Identity.API.Services
 
         public async Task<User> Login(UserLogin user)
         {
-            var entity = _mapper.Map<UserLogin, UserEntity>(user);
-            var dbUser = await _userRepository.Login(entity);
+            var dbUser = await _userRepository.GetUserByEmail(user.Email);
             if (dbUser == null)
             {
                 return null;
             }
-            if (_passwordHasher.VerifyHashedPassword(entity, dbUser.Password, user.Password) == PasswordVerificationResult.Failed)
+            if (_passwordHasher.VerifyHashedPassword(dbUser, dbUser.Password, user.Password) == PasswordVerificationResult.Failed)
             {
                 return null;
             }
@@ -44,10 +43,9 @@ namespace Identity.API.Services
         public async Task<User> AddUser(UserRegister user)
         {
             var newUser = _mapper.Map<UserRegister, UserEntity>(user);
-            newUser.Password = _passwordHasher.HashPassword(newUser, user.Password);
-            newUser.PartitionKey = Guid.NewGuid().ToString();
             user.Id = Guid.NewGuid().ToString();
-            newUser.RowKey = user.Id.ToString();
+            newUser.Password = _passwordHasher.HashPassword(newUser, user.Password);
+            newUser.Id = user.Id.ToString();
             await _userRepository.AddUser(newUser);
             return _mapper.Map<UserRegister, User>(user);
         }

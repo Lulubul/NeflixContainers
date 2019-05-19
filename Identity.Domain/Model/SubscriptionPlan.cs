@@ -1,6 +1,6 @@
-﻿namespace Identity.API.Application.Model
+﻿namespace Identity.Domain.Model
 {
-    public class SubscriptionPlan
+    public class SubscriptionPlan: Entity
     {
         public bool CancelAnytime { get; set; }
         public bool HD { get; set; }
