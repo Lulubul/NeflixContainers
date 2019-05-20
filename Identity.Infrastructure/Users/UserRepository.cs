@@ -13,9 +13,9 @@ namespace Identity.Infrastructure
 
     public class UserRepository : IUserRepository
     {
-        private readonly IdentityContext _identityContext;
+        private readonly UserIdentityContext _identityContext;
 
-        public UserRepository(IdentityContext identityContext)
+        public UserRepository(UserIdentityContext identityContext)
         {
             _identityContext = identityContext;
         }

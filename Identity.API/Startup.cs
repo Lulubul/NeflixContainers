@@ -28,8 +28,8 @@ namespace Identity.API
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services
-                .AddCustomDbContext(Configuration)
                 .AddCustomHealthCheck(Configuration)
+                .AddCustomDbContext(Configuration)
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

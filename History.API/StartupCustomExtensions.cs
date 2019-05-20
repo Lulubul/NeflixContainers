@@ -20,7 +20,7 @@ namespace History.API
 
         public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<History.Infrastructure.HistoryContext>(options =>
+            services.AddDbContext<HistoryContext>(options =>
             {
                 options.UseSqlServer(configuration["ConnectionString"],
                                      sqlServerOptionsAction: sqlOptions =>

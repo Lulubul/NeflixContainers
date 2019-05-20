@@ -1,24 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Identity.Infrastructure;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.IO;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace Identity.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            try
+            {
+                var host = CreateWebHostBuilder(args).Build();
+                host.MigrateDbContext<UserIdentityContext>((context, services) =>
+                {
+                    var logger = services.GetService<ILogger<UserIdentityContextSeed>>();
+                    new UserIdentityContextSeed()
+                        .SeedAsync(context, logger)
+                        .Wait();
+                });
+                host.Run();
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                return 1;
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+          WebHost.CreateDefaultBuilder(args)
+              .UseStartup<Startup>();
+
     }
 }

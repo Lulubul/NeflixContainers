@@ -11,9 +11,9 @@ namespace Identity.Infrastructure
 
     public class PlanRepository : IPlanRepository
     {
-        private readonly IdentityContext _identityContext;
+        private readonly UserIdentityContext _identityContext;
 
-        public PlanRepository(IdentityContext identityContext)
+        public PlanRepository(UserIdentityContext identityContext)
         {
             _identityContext = identityContext;
         }

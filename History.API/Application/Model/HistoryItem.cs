@@ -9,6 +9,7 @@ namespace History.API.Application.Model
         public string ProfileId { get; set; }
         public string WatchingItemId { get; set; }
         public WatchingItemType WatchingItemType { get; set; }
+        public double TimeWatched { get; set; }
         public DateTime Date { get; set; }
     }
 }
