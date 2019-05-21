@@ -29,14 +29,14 @@ namespace ApiGw_Base
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddHealthChecks()
-               .AddCheck("self", () => HealthCheckResult.Healthy())
-               .AddUrlGroup(new Uri(_cfg["ProfileUrlHC"]), name: "profileapi-check", tags: new string[] { "profileapi" })
+               .AddCheck("self", () => HealthCheckResult.Healthy());
+             /*   .AddUrlGroup(new Uri(_cfg["ProfileUrlHC"]), name: "profileapi-check", tags: new string[] { "profileapi" })
                .AddUrlGroup(new Uri(_cfg["HistoryUrlHC"]), name: "historyapi-check", tags: new string[] { "historyapi" })
                .AddUrlGroup(new Uri(_cfg["MarketingUrlHC"]), name: "marketingapi-check", tags: new string[] { "marketingapi" })
                .AddUrlGroup(new Uri(_cfg["MoviemetadataUrlHC"]), name: "moviemetadataapi-check", tags: new string[] { "moviemetadataapi" })
                .AddUrlGroup(new Uri(_cfg["RecommendationUrlHC"]), name: "recommendationapi-check", tags: new string[] { "recommendationapi" })
                .AddUrlGroup(new Uri(_cfg["IdentityUrlHC"]), name: "identityapi-check", tags: new string[] { "identityapi" });
-
+               */
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -47,12 +47,11 @@ namespace ApiGw_Base
                     .AllowCredentials());
             });
 
-
             services.AddOcelot(_cfg);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -79,7 +78,7 @@ namespace ApiGw_Base
             });
 
             app.UseCors("CorsPolicy");
-            app.UseOcelot().Wait();
+            await app.UseOcelot();
         }
     }
 }

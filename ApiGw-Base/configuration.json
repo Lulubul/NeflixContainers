@@ -1,16 +1,15 @@
 {
   "ReRoutes": [
     {
-      "DownstreamPathTemplate": "/api/{version}/{everything}",
+      "DownstreamPathTemplate": "/api/plans",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "catalog.api",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 5000
         }
       ],
-      "UpstreamPathTemplate": "/api/{version}/c/{everything}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamPathTemplate": "/identity-api/plans"
     }
 
   ],
