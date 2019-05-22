@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
+using System.Data.SqlClient;
 
 namespace Identity.API
 {
@@ -21,6 +22,8 @@ namespace Identity.API
         {
             Configuration = configuration;
         }
+
+        private string _connection = null;
 
         public IConfiguration Configuration { get; }
 
@@ -32,6 +35,7 @@ namespace Identity.API
                 .AddCustomDbContext(Configuration)
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
