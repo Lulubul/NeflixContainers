@@ -8,5 +8,6 @@ namespace Identity.Domain.Model
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PlanId { get; set; }
+        public string Token { get; set; }
     }
 }

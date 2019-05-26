@@ -48,6 +48,7 @@ namespace Identity.API.Controllers
         /// Handle postback from username/password login
         /// </summary>
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody]UserLogin userLogin)
         {
             if (userLogin == null)
@@ -59,7 +60,16 @@ namespace Identity.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            User user = await _userService.Login(userLogin);         
+
+            User user = null;
+            try
+            {
+                user = await _userService.Login(userLogin);
+            }
+            catch(LoginDomainException e)
+            {
+                return Unauthorized(e.Message);
+            }
             if (user == null)
             {
                 return Unauthorized();

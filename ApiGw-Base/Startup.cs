@@ -28,15 +28,30 @@ namespace ApiGw_Base
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            var identityUrl = _cfg.GetValue<string>("IdentityUrl");
+            var authenticationProviderKey = "IdentityApiKey";
+
             services.AddHealthChecks()
                .AddCheck("self", () => HealthCheckResult.Healthy());
-             /*   .AddUrlGroup(new Uri(_cfg["ProfileUrlHC"]), name: "profileapi-check", tags: new string[] { "profileapi" })
-               .AddUrlGroup(new Uri(_cfg["HistoryUrlHC"]), name: "historyapi-check", tags: new string[] { "historyapi" })
-               .AddUrlGroup(new Uri(_cfg["MarketingUrlHC"]), name: "marketingapi-check", tags: new string[] { "marketingapi" })
-               .AddUrlGroup(new Uri(_cfg["MoviemetadataUrlHC"]), name: "moviemetadataapi-check", tags: new string[] { "moviemetadataapi" })
-               .AddUrlGroup(new Uri(_cfg["RecommendationUrlHC"]), name: "recommendationapi-check", tags: new string[] { "recommendationapi" })
-               .AddUrlGroup(new Uri(_cfg["IdentityUrlHC"]), name: "identityapi-check", tags: new string[] { "identityapi" });
-               */
+            /* .AddUrlGroup(new Uri(_cfg["ProfileUrlHC"]), name: "profileapi-check", tags: new string[] { "profileapi" })
+              .AddUrlGroup(new Uri(_cfg["HistoryUrlHC"]), name: "historyapi-check", tags: new string[] { "historyapi" })
+              .AddUrlGroup(new Uri(_cfg["MarketingUrlHC"]), name: "marketingapi-check", tags: new string[] { "marketingapi" })
+              .AddUrlGroup(new Uri(_cfg["MoviemetadataUrlHC"]), name: "moviemetadataapi-check", tags: new string[] { "moviemetadataapi" })
+              .AddUrlGroup(new Uri(_cfg["RecommendationUrlHC"]), name: "recommendationapi-check", tags: new string[] { "recommendationapi" })
+              .AddUrlGroup(new Uri(_cfg["IdentityUrlHC"]), name: "identityapi-check", tags: new string[] { "identityapi" });
+              */
+
+            services.AddAuthentication()
+               .AddJwtBearer(authenticationProviderKey, x =>
+               {
+                   x.Authority = identityUrl;
+                   x.RequireHttpsMetadata = false;
+                   x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                   {
+                       ValidAudiences = new[] { "profiles", "history", "marketing", "moviemetadata", "recommendation" }
+                   };
+               });
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",

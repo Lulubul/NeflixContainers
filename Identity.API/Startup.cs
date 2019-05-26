@@ -12,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
-using System.Data.SqlClient;
 
 namespace Identity.API
 {
@@ -22,8 +21,6 @@ namespace Identity.API
         {
             Configuration = configuration;
         }
-
-        private string _connection = null;
 
         public IConfiguration Configuration { get; }
 
@@ -36,13 +33,12 @@ namespace Identity.API
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = GetType().Namespace, Version = "v1" });
             });
+            //services.AddCustomAuthorization(Configuration);
 
             var container = new ContainerBuilder();
             container.Populate(services);
@@ -83,6 +79,8 @@ namespace Identity.API
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
             });
 
+            //app.UseAuthentication();
+            app.UseForwardedHeaders();
             //app.UseHttpsRedirection();
             app.UseMvc();
         }

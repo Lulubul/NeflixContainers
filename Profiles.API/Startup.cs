@@ -37,11 +37,8 @@ namespace Profiles.API
 
             var container = new ContainerBuilder();
             container.Populate(services);
-
-            var azureTableStorage = Configuration.GetConnectionString("AzureTableStorage");
-
             container.RegisterModule(new MediatorModule());
-            container.RegisterModule(new ApplicationModule(azureTableStorage));
+            container.RegisterModule(new ApplicationModule(Configuration.GetConnectionString("AzureTableStorage")));
             return new AutofacServiceProvider(container.Build());
         }
 

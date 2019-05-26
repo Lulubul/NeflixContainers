@@ -1,7 +1,7 @@
 {
   "ReRoutes": [
     {
-      "DownstreamPathTemplate": "/api/plans",
+      "DownstreamPathTemplate": "/api/{version}/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,9 +9,8 @@
           "Port": 5000
         }
       ],
-      "UpstreamPathTemplate": "/identity-api/plans"
+      "UpstreamPathTemplate": "/identity-api/{version}/{everything}"
     }
-
   ],
   "GlobalConfiguration": {
     "RequestIdKey": "OcRequestId",
