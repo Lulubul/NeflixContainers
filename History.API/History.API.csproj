@@ -6,11 +6,6 @@
     <UserSecretsId>6f3f40c5-c932-4dc6-be0c-fce19f7efb03</UserSecretsId>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="2.2.3" />
     <PackageReference Include="Autofac" Version="4.9.2" />
