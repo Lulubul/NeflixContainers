@@ -6,11 +6,6 @@
     <UserSecretsId>58cf8642-52ee-44c7-afa7-3e52f90be45c</UserSecretsId>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.AzureStorage" Version="2.2.2" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="2.2.3" />

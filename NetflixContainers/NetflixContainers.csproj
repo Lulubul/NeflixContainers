@@ -6,9 +6,6 @@
     <UserSecretsId>529a573a-8427-43a1-bfb3-9691df1b4148</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
