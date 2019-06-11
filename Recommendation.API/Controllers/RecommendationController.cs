@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Recommendation.API.Application;
 
 namespace History.API.Controllers
 {

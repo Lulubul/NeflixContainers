@@ -11,10 +11,12 @@ namespace Marketing.API.Controllers
     public class NewsController : ControllerBase
     {
         private readonly INewsRepository _newsRepository;
+        private readonly IMailService _mailService;
 
-        public NewsController(INewsRepository newsRepository)
+        public NewsController(INewsRepository newsRepository, IMailService mailService)
         {
             _newsRepository = newsRepository;
+            _mailService = mailService;
         }
 
         // GET: api/<controller>
@@ -34,6 +36,23 @@ namespace Marketing.API.Controllers
 
             var news = await _newsRepository.GetNewsAsync(userId, profileId);
             return Ok(news);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendNewsAsMail([FromQuery]string userId, [FromQuery]string email)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest($"Parameter is not defined in query {nameof(userId)}");
+            }
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest($"Parameter is not defined in query {nameof(email)}");
+            }
+
+            await _mailService.SendMail(userId, email);
+            return Ok();
         }
     }
 }

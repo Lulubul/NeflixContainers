@@ -11,14 +11,15 @@ namespace History.Infrastructure
     {
         Task<bool> AddAsync(HistoryEntity historyEntity);
         Task<List<HistoryEntity>> GetAll(string userId, string profileId);
+        Task<List<HistoryEntity>> GetPopularItemsAsync(WatchingItemType type);
     }
 
     public class HistoryRepository : IHistoryRepository
     {
-        private readonly HistoryContext _historyContext;
+        private readonly HistoryDbContext _historyContext;
         private const string TableName = "history";
 
-        public HistoryRepository(HistoryContext context)
+        public HistoryRepository(HistoryDbContext context)
         {
             _historyContext = context ?? throw new ArgumentNullException(nameof(context));
         }
@@ -41,6 +42,16 @@ namespace History.Infrastructure
             return await _historyContext
                 .History
                 .Where(x => x.UserId == userId && x.ProfileId == profileId)
+                .ToListAsync();
+        }
+
+        public async Task<List<HistoryEntity>> GetPopularItemsAsync(WatchingItemType type)
+        {
+            return await _historyContext
+                .History
+                .Where(x => x.WatchingItemType == type)
+                //.GroupBy(x => x.WatchingItemId)
+                .Take(10)
                 .ToListAsync();
         }
     }

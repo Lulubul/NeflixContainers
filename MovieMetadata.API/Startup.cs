@@ -36,6 +36,12 @@ namespace MovieMetadata.API
             {
                 c.SwaggerDoc("v1", new Info { Title = GetType().Namespace, Version = "v1" });
             });
+            services.AddCors(o => o.AddPolicy("AllowAnyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
 
             var azureTableStorage = Configuration.GetConnectionString("AzureTableStorage");
             var azureBlobStorage = Configuration.GetConnectionString("AzureBlobStorage");
@@ -56,7 +62,7 @@ namespace MovieMetadata.API
             {
                 app.UseHsts();
             }
-
+            app.UseCors("AllowAnyPolicy");
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

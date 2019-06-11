@@ -17,5 +17,9 @@ namespace History.API.Application.Commands
         public WatchingItemType WatchingItemType { get; set; }
         [Required]
         public DateTime Date { get; set; }
+        public double? TimeWatched { get; set; }
+        public string Genres { get; set; }
+        public string VideoId { get; set; }
+        public string ReleaseYear { get; set; }
     }
 }

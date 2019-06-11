@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MovieMetadata.API.Application;
+using MovieMetadata.Infrastructure;
 
 namespace MovieMetadata.API.Controllers
 {
@@ -9,10 +11,12 @@ namespace MovieMetadata.API.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly IMoviesQueries _movieQueries;
+        private readonly IMovieRepository _movieRepository;
 
-        public MoviesController(IMoviesQueries movieQueries)
+        public MoviesController(IMoviesQueries movieQueries, IMovieRepository movieRepository)
         {
             _movieQueries = movieQueries;
+            _movieRepository = movieRepository;
         }
 
         // GET: api/<controller>
@@ -23,13 +27,31 @@ namespace MovieMetadata.API.Controllers
             return Ok(movies);
         }
 
-        // GET: api/<controller>
-        [HttpGet]
-        [Route("api/genres")]
-        public async Task<IActionResult> GetGenres()
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetMoviesByIds(string ids)
         {
-            var movies = await _movieQueries.GetGenres();
+            if (string.IsNullOrEmpty(ids))
+            {
+                return BadRequest($"Parameter is not defined in query {nameof(ids)}");
+            }
+            var movies = await _movieRepository.GetMoviesByIdsAsync(ids.Split(","));
             return Ok(movies);
+        }
+
+        // GET: api/<controller>
+        [HttpGet("{name}")]
+        public async Task<IActionResult> GetMovieByNameAsync(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return BadRequest($"Parameter is not defined in query {nameof(name)}");
+            }
+
+            var movieStream = await _movieRepository.GetMovieByNameAsync(name);
+            return new FileStreamResult(movieStream, new MediaTypeHeaderValue("video/mp4").MediaType)
+            {
+                EnableRangeProcessing = true
+            };
         }
     }
 

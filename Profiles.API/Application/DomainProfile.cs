@@ -9,7 +9,8 @@ namespace Profiles.API.Application
     {
         public DomainProfile()
         {
-            CreateMap<ProfileEntity, UserProfile>();
+            CreateMap<ProfileEntity, UserProfile>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.RowKey));
             CreateMap<UserProfile, CreateProfileCommand>();
             CreateMap<UserProfile, UpdateProfileCommand>();
             CreateMap<CreateProfileCommand, ProfileEntity>();

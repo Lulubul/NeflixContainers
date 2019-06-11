@@ -7,6 +7,7 @@ namespace MovieMetadata.API.Application.Models
 {
     public class MovieGenre
     {
+        public string Id { get; set; }
         public string Name { get; set; }
     }
 }

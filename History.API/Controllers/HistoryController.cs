@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using History.API.Application.Commands;
 using History.API.Application.Model;
 using History.API.Application.Queries;
+using History.Infrastructure.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,6 +50,20 @@ namespace History.API.Controllers
             }
 
             return Ok(await _mediator.Send(historyItem));
+        }
+
+        [HttpGet("getPopularVideos")]
+        public async Task<IActionResult> GetPopularVideos()
+        {
+            var result = await _mediator.Send(new PopularItemsByWatchingTypeQuery(WatchingItemType.Movies));
+            return Ok(result.HistoryItems);
+        }
+
+        [HttpGet("getPopularTvSeries")]
+        public async Task<IActionResult> GetPopularTvSeries()
+        {
+            var result = await _mediator.Send(new PopularItemsByWatchingTypeQuery(WatchingItemType.TvSeries));
+            return Ok(result.HistoryItems);
         }
     }
 }

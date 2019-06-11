@@ -36,6 +36,14 @@ namespace Marketing.API
                     TermsOfService = "Terms Of Service"
                 });
             });
+            services.AddCors(o => o.AddPolicy("AllowAnyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+            services.AddTransient<IMailService, MailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +57,7 @@ namespace Marketing.API
             {
                 app.UseHsts();
             }
-
+            app.UseCors("AllowAnyPolicy");
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 

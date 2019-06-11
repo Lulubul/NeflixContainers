@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
-using Microsoft.Extensions.Configuration;
 
 namespace History.API
 {
@@ -30,6 +29,7 @@ namespace History.API
             services
                 .AddCustomHealthCheck(Configuration)
                 .AddCustomDbContext(Configuration)
+                .AddEventBus(Configuration)
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -38,7 +38,12 @@ namespace History.API
             {
                 c.SwaggerDoc("v1", new Info { Title = GetType().Namespace, Version = "v1" });
             });
-
+            services.AddCors(o => o.AddPolicy("AllowAnyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             var container = new ContainerBuilder();
             container.Populate(services);
 
@@ -58,7 +63,7 @@ namespace History.API
             {
                 app.UseHsts();
             }
-
+            app.UseCors("AllowAnyPolicy");
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 

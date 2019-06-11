@@ -9,7 +9,7 @@ namespace History.Infrastructure.EntitiesConfiguration
         public void Configure(EntityTypeBuilder<HistoryEntity> builder)
         {
             builder.ToTable("HistoryEntity");
-            builder.HasKey(ci => new { ci.UserId, ci.ProfileId });
+            builder.HasKey(ci => ci.Id);
         }
     }
 }

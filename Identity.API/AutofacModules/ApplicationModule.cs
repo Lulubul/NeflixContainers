@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Identity.API.Application;
+using Identity.API.Services;
 using Identity.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 
@@ -15,6 +16,9 @@ namespace Identity.API.Infrastructure.AutofacModules
         {
             builder.RegisterType<UserRepository>()
                 .As<IUserRepository>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<UserService>()
+                .As<IUserService>()
                 .InstancePerLifetimeScope();
             builder.Register(c => new PasswordHasher<UserEntity>())
                 .As<IPasswordHasher<UserEntity>>()

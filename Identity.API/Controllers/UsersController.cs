@@ -13,9 +13,9 @@ namespace Identity.API.Controllers
     {
         private readonly IUserService _userService;
 
-        public UsersController(IUserService userRepository)
+        public UsersController(IUserService userService)
         {
-            _userService = userRepository;
+            _userService = userService;
         }
 
         [HttpPost("register")]

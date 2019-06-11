@@ -19,7 +19,6 @@ namespace ApiGw_Base
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration(ic => ic.AddJsonFile("configuration.json"))
                 .UseStartup<Startup>();
     }
 }

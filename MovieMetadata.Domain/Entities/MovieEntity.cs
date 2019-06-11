@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.WindowsAzure.Storage.Table;
+﻿using Microsoft.WindowsAzure.Storage.Table;
 
 namespace MovieMetadata.Infrastructure.Entities
 {
@@ -11,5 +8,8 @@ namespace MovieMetadata.Infrastructure.Entities
         public string Description { get; set; }
         public string Duration { get; set; }
         public string Image { get; set; }
+        public string Genres { get; set; }
+        public string VideoId { get; set; }
+        public string ReleaseYear { get; set; }
     }
 }

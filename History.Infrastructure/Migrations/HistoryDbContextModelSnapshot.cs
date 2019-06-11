@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace History.Infrastructure.Migrations
 {
-    [DbContext(typeof(HistoryContext))]
-    partial class HistoryContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(HistoryDbContext))]
+    partial class HistoryDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -21,19 +21,28 @@ namespace History.Infrastructure.Migrations
 
             modelBuilder.Entity("History.Infrastructure.Entities.HistoryEntity", b =>
                 {
-                    b.Property<string>("UserId");
-
-                    b.Property<string>("ProfileId");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<double>("TimeWatched");
+                    b.Property<string>("Genres");
+
+                    b.Property<string>("ProfileId");
+
+                    b.Property<string>("ReleaseYear");
+
+                    b.Property<double?>("TimeWatched");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("VideoId");
 
                     b.Property<string>("WatchingItemId");
 
                     b.Property<int>("WatchingItemType");
 
-                    b.HasKey("UserId", "ProfileId");
+                    b.HasKey("Id");
 
                     b.ToTable("HistoryEntity");
                 });

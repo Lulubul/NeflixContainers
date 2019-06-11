@@ -9,7 +9,10 @@ namespace History.API.Application.Model
         public string ProfileId { get; set; }
         public string WatchingItemId { get; set; }
         public WatchingItemType WatchingItemType { get; set; }
-        public double TimeWatched { get; set; }
         public DateTime Date { get; set; }
+        public double? TimeWatched { get; set; }
+        public string Genres { get; set; }
+        public string VideoId { get; set; }
+        public string ReleaseYear { get; set; }
     }
 }

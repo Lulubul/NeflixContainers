@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace History.Infrastructure
 {
-    public class HistoryContext : DbContext
+    public class HistoryDbContext : DbContext
     {
         public DbSet<HistoryEntity> History { get; set; }
 
-        public HistoryContext(DbContextOptions<HistoryContext> options) : base(options)
+        public HistoryDbContext(DbContextOptions<HistoryDbContext> options) : base(options)
         {
         }
 

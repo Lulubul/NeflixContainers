@@ -14,15 +14,15 @@ using Autofac;
 
 namespace EventBusRabbitMQ
 {
-    public class EventBusRabbitMQ
+    public class EventBusRabbitMQ : IEventBus, IDisposable
     {
-        const string BROKER_NAME = "eshop_event_bus";
+        const string BROKER_NAME = "Streaming";
 
         private readonly IRabbitMQPersistentConnection _persistentConnection;
         private readonly ILogger<EventBusRabbitMQ> _logger;
         private readonly IEventBusSubscriptionsManager _subsManager;
         private readonly ILifetimeScope _autofac;
-        private readonly string AUTOFAC_SCOPE_NAME = "eshop_event_bus";
+        private readonly string AUTOFAC_SCOPE_NAME = "Streaming";
         private readonly int _retryCount;
 
         private IModel _consumerChannel;
@@ -33,7 +33,7 @@ namespace EventBusRabbitMQ
         {
             _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _subsManager = subsManager ?? throw new ArgumentNullException(nameof(subsManager));
+            _subsManager = subsManager;
             _queueName = queueName;
             _consumerChannel = CreateConsumerChannel();
             _autofac = autofac;
@@ -143,8 +143,8 @@ namespace EventBusRabbitMQ
                 using (var channel = _persistentConnection.CreateModel())
                 {
                     channel.QueueBind(queue: _queueName,
-                                      exchange: BROKER_NAME,
-                                      routingKey: eventName);
+                                        exchange: BROKER_NAME,
+                                        routingKey: eventName);
                 }
             }
         }
@@ -237,10 +237,10 @@ namespace EventBusRabbitMQ
                                     type: "direct");
 
             channel.QueueDeclare(queue: _queueName,
-                                 durable: true,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
+                                    durable: true,
+                                    exclusive: false,
+                                    autoDelete: true,
+                                    arguments: null);
 
             channel.CallbackException += (sender, ea) =>
             {

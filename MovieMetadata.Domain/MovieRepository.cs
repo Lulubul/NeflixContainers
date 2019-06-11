@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -13,6 +14,7 @@ namespace MovieMetadata.Infrastructure
         Task<IEnumerable<MovieEntity>> GetTopMoviesInCategoriesAsync();
         Task<IEnumerable<MovieGenreEntity>> GetGenresAsync();
         Task<Stream> GetMovieByNameAsync(string name);
+        Task<List<MovieEntity>> GetMoviesByIdsAsync(string[] ids);
     }
 
     public class MovieRepository : IMovieRepository
@@ -79,5 +81,25 @@ namespace MovieMetadata.Infrastructure
             return blobClient.GetContainerReference(container);
         }
 
+        public async Task<List<MovieEntity>> GetMovies()
+        {
+            var table = GetTable(MoviesContainer, _storageConnectionString);
+            var movies = new List<MovieEntity>();
+            TableContinuationToken continuationToken = null;
+            do
+            {
+                var querySegment = await table.ExecuteQuerySegmentedAsync(new TableQuery<MovieEntity>(), continuationToken);
+                continuationToken = querySegment.ContinuationToken;
+                movies.AddRange(querySegment.Results);
+            }
+            while (continuationToken != null);
+            return movies;
+        }
+
+        public async Task<List<MovieEntity>> GetMoviesByIdsAsync(string[] ids)
+        {
+            var movies = await GetMovies();
+            return movies.Where((movie) => ids.Contains(movie.RowKey)).ToList();
+        }
     }
 }

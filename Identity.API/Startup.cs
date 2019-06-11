@@ -38,7 +38,13 @@ namespace Identity.API
             {
                 c.SwaggerDoc("v1", new Info { Title = GetType().Namespace, Version = "v1" });
             });
-            //services.AddCustomAuthorization(Configuration);
+            services.AddCustomAuthorization(Configuration);
+            services.AddCors(o => o.AddPolicy("AllowAnyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
 
             var container = new ContainerBuilder();
             container.Populate(services);
@@ -58,7 +64,7 @@ namespace Identity.API
             {
                 app.UseHsts();
             }
-
+            app.UseCors("AllowAnyPolicy");
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
@@ -79,9 +85,9 @@ namespace Identity.API
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
             });
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
             app.UseForwardedHeaders();
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

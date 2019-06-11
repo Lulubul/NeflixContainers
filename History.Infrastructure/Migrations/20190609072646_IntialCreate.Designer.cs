@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace History.Infrastructure.Migrations
 {
-    [DbContext(typeof(HistoryContext))]
-    [Migration("20190518192716_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(HistoryDbContext))]
+    [Migration("20190609072646_IntialCreate")]
+    partial class IntialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,6 +28,14 @@ namespace History.Infrastructure.Migrations
                     b.Property<string>("ProfileId");
 
                     b.Property<DateTime>("Date");
+
+                    b.Property<string>("Genres");
+
+                    b.Property<string>("ReleaseYear");
+
+                    b.Property<double?>("TimeWatched");
+
+                    b.Property<string>("VideoId");
 
                     b.Property<string>("WatchingItemId");
 

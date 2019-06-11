@@ -8,8 +8,10 @@ namespace MovieMetadata.API.Application
     {
         public DomainProfile()
         {
-            CreateMap<MovieEntity, Movie>();
-            CreateMap<MovieGenreEntity, MovieGenre>();
+            CreateMap<MovieEntity, Movie>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.RowKey));
+            CreateMap<MovieGenreEntity, MovieGenre>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.RowKey));
         }
     }
 }

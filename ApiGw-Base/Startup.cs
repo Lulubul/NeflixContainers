@@ -28,6 +28,7 @@ namespace ApiGw_Base
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+
             var identityUrl = _cfg.GetValue<string>("IdentityUrl");
             var authenticationProviderKey = "IdentityApiKey";
 
@@ -63,6 +64,7 @@ namespace ApiGw_Base
             });
 
             services.AddOcelot(_cfg);
+            //services.AddSwaggerForOcelot(_cfg);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,7 +80,7 @@ namespace ApiGw_Base
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
 
             app.UseHealthChecks("/hc", new HealthCheckOptions()
@@ -93,7 +95,14 @@ namespace ApiGw_Base
             });
 
             app.UseCors("CorsPolicy");
-            await app.UseOcelot();
+            /*
+             *  .UseSwaggerForOcelotUI(_cfg, opt =>
+                {
+                    opt.EndPointBasePath = "/swagger/docs";
+                })*/
+            await app
+               
+                .UseOcelot();
         }
     }
 }
