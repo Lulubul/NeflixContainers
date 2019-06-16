@@ -7,7 +7,6 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Table;
 using MoreLinq;
 using MovieMetadata.Infrastructure.Entities;
-using static MoreLinq.Extensions.LeadExtension;
 
 namespace MovieMetadata.Infrastructure
 {
