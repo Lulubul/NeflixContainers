@@ -23,9 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Recommendation.Infrastructure\Recommendation.Infrastructure.csproj" />
     <ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
     <ProjectReference Include="..\Recommendation.Domain\Recommendation.Domain.csproj" />
+    <ProjectReference Include="..\Recommendation.Infrastructure\Recommendation.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

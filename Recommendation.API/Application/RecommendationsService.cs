@@ -1,7 +1,11 @@
-﻿using Recommendation.Domain;
+﻿using AutoMapper.Configuration;
+using Recommendation.API.Shared;
+using Recommendation.Domain;
+using Recommendation.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Recommendation.API.Application
@@ -13,49 +17,46 @@ namespace Recommendation.API.Application
 
     public class RecommendationsService : IRecommendationsService
     {
-        //private readonly IHistoryService _historyService;
-        //private readonly IMovieService _movieService;
+        private readonly IRecommendationRepository _recommendationRepository;
+        private readonly IHttpClientFactory _clientFactory;
 
-        public Task<List<Movie>> GetVideoRecommendationsByUser(Guid userId, Guid profileId)
+        public RecommendationsService(IRecommendationRepository recommendationRepository, IHttpClientFactory clientFactory)
         {
-            throw new NotImplementedException();
+            _recommendationRepository = recommendationRepository;
+            _clientFactory = clientFactory;
         }
 
-        private UserPreferences GetTopGenresAndReleaseYears(List<Movie> movies)
+        public async Task<List<Movie>> GetVideoRecommendationsByUser(Guid userId, Guid profileId)
         {
-            var moviesByGenreDictionary = new Dictionary<string, List<Movie>>();
-            var moviesByReleaseYearDictionary = new Dictionary<string, List<Movie>>();
-
-            foreach (var movie in movies)
+            var userStatistics = await _recommendationRepository.GetUserStatistics(userId.ToString(), profileId.ToString());
+            if (userStatistics == null)
             {
-                if (!string.IsNullOrEmpty(movie.Genres))
-                {
-                    var genres = movie.Genres.Split(',').ToList();
-                    genres.ForEach((genre) =>
-                    {
-                        if (moviesByGenreDictionary.ContainsKey(genre))
-                        {
-                            moviesByGenreDictionary[genre].Add(movie);
-                        }
-                        else
-                        {
-                            moviesByGenreDictionary.Add(genre, new List<Movie> { movie });
-                        }
-                    });
-                }
-
-                if (moviesByReleaseYearDictionary.ContainsKey(movie.ReleaseYear))
-                {
-                    moviesByReleaseYearDictionary[movie.ReleaseYear].Add(movie);
-                }
-                else
-                {
-                    moviesByReleaseYearDictionary.Add(movie.ReleaseYear, new List<Movie> { movie });
-                }
+                return new List<Movie>();
             }
-            return new UserPreferences(moviesByGenreDictionary, moviesByReleaseYearDictionary);
+
+            var genresPreferences = TopPreferences(userStatistics.GenresPreferences);
+            var relaseYearPreferences = TopPreferences(userStatistics.RelaseYearPreferences);
+
+            if (string.IsNullOrEmpty(genresPreferences) || string.IsNullOrEmpty(relaseYearPreferences))
+            {
+                return new List<Movie>();
+            }
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{relaseYearPreferences}/{genresPreferences}");
+            var client = _clientFactory.CreateClient("movies");
+            var response = await client.SendAsync(request);
+            var movies = new List<Movie>();
+            if (response.IsSuccessStatusCode)
+            {
+                movies = await response.Content.ReadAsAsync<List<Movie>>();
+                var videoHistory = userStatistics.VideoIdPreferences.Split(",");
+                movies = movies.Where((x) => !videoHistory.Any((id) => id == x.VideoId)).ToList();
+            }
+            return movies;
+        }
+
+        private string TopPreferences(string userPreferences)
+        {
+            return userPreferences.ConvertToDictionary().OrderBy(x => x.Value).Select(x => x.Key).FirstOrDefault();
         }
     }
-
-
 }

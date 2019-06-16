@@ -35,5 +35,11 @@ namespace MovieMetadata.API.Application
             var movies = await _movieRepository.GetGenresAsync();
             return movies.Select((movie) => _mapper.Map<MovieGenre>(movie));
         }
+
+        public async Task<IEnumerable<MovieGenre>> GetMoviesByRelaseYearAndGenre(string releaseYear, string genre)
+        {
+            var movies = await _movieRepository.GetMoviesByRelaseYearAndGenreAsync(releaseYear, genre);
+            return movies.Select((movie) => _mapper.Map<MovieGenre>(movie));
+        }
     }
 }

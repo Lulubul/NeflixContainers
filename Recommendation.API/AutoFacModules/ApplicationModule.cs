@@ -6,8 +6,11 @@ namespace Recommendation.API.AutoFacModules
 {
     public class ApplicationModule : Autofac.Module
     {
-        public ApplicationModule()
+        private readonly string _connectionString;
+
+        public ApplicationModule(string connectionString)
         {
+            _connectionString = connectionString;
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -17,8 +20,9 @@ namespace Recommendation.API.AutoFacModules
                 .As<IRecommendationsService>()
                 .InstancePerLifetimeScope();
 
+
             builder
-                .RegisterType<RecommendationRepository>()
+                .Register(c => new RecommendationRepository(_connectionString))
                 .As<IRecommendationRepository>()
                 .InstancePerLifetimeScope();
         }

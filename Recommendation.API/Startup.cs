@@ -24,7 +24,7 @@ namespace Recommendation.API
         }
 
         public IConfiguration Configuration { get; }
-
+        private string MoviesUrl;
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
@@ -33,6 +33,7 @@ namespace Recommendation.API
                 .AddEventBus(Configuration)
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
 
             services.AddSwaggerGen(c =>
             {
@@ -45,10 +46,17 @@ namespace Recommendation.API
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+            MoviesUrl = Configuration.GetValue<string>("MoviesUrl");
+            services.AddHttpClient("movies", c =>
+            {
+                c.BaseAddress = new Uri(MoviesUrl);
+            });
+
+            var azureTableStorage = Configuration.GetConnectionString("AzureTableStorage");
             var container = new ContainerBuilder();
             container.Populate(services);
             //container.RegisterModule(new MediatorModule());
-            container.RegisterModule(new ApplicationModule());
+            container.RegisterModule(new ApplicationModule(azureTableStorage));
             return new AutofacServiceProvider(container.Build());
         }
 

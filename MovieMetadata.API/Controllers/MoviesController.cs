@@ -38,6 +38,21 @@ namespace MovieMetadata.API.Controllers
             return Ok(movies);
         }
 
+        [HttpGet("{releaseYear}/{genres}")]
+        public async Task<IActionResult> GetMoviesByReleaseYearAndGenres(string releaseYear, string genres)
+        {
+            if (string.IsNullOrEmpty(releaseYear))
+            {
+                return BadRequest($"Parameter is not defined in query {nameof(releaseYear)}");
+            }
+            if (string.IsNullOrEmpty(genres))
+            {
+                return BadRequest($"Parameter is not defined in query {nameof(genres)}");
+            }
+            var movies = await _movieRepository.GetMoviesByRelaseYearAndGenreAsync(releaseYear, genres);
+            return Ok(movies);
+        }
+
         // GET: api/<controller>
         [HttpGet("{name}")]
         public async Task<IActionResult> GetMovieByNameAsync(string name)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -8,14 +9,12 @@ namespace History.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RecommendationController : ControllerBase
+    public class RecommendationsController : ControllerBase
     {
-        private readonly IMediator _mediator;
         private readonly IRecommendationsService _recommendationsService;
 
-        public RecommendationController(IRecommendationsService recommendationsService, IMediator mediator)
+        public RecommendationsController(IRecommendationsService recommendationsService)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _recommendationsService = recommendationsService ?? throw new ArgumentNullException(nameof(recommendationsService));
         }
 

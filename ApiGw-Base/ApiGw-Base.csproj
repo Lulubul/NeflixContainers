@@ -14,8 +14,8 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.8" />
-    <PackageReference Include="MMLib.SwaggerForOcelot" Version="1.2.1" />
-    <PackageReference Include="Ocelot" Version="13.5.1" />
+    <PackageReference Include="MMLib.SwaggerForOcelot" Version="1.4.0" />
+    <PackageReference Include="Ocelot" Version="13.5.2" />
   </ItemGroup>
 
 </Project>

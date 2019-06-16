@@ -63,7 +63,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Infrastructure", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBusRabbitMQ", "EventBusRabbitMQ\EventBusRabbitMQ.csproj", "{6A85781A-D822-4756-99BE-07638CB8A12E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recommendation.Infrastructure", "..\Recommendation.Infrastructure\Recommendation.Infrastructure.csproj", "{B4E60789-F573-4856-B58B-5740B2306159}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recommendation.Infrastructure", "Recommendation.Infrastructure\Recommendation.Infrastructure.csproj", "{B4E60789-F573-4856-B58B-5740B2306159}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
